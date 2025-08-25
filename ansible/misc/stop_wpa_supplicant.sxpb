@@ -1,0 +1,13 @@
+; An Ansible play that deletes wpa_supplicant.
+
+(name Stop wpa_supplicant.)
+(hosts all)
+(tasks (())
+ (()
+  (name Stop wpa_supplicant.)
+  (ansible.builtin.service
+   (name wpa_supplicant)
+   (enabled +false)
+   (state stopped)
+ ))
+)

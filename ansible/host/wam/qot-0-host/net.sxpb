@@ -51,10 +51,10 @@ iface lo inet6 loopback
 
 auto br0
 iface br0 inet6 up
-  bridge_ports eth1 eth2 eth3 eth4
+  bridge_ports eth0 eth1 eth2 eth3 eth4
 
 iface br0 inet up
-  bridge_ports eth1 eth2 eth3 eth4
+  bridge_ports eth0 eth1 eth2 eth3 eth4
   address 10.123.0.1
   broadcast 10.123.0.255
   netmask 255.255.255.0
@@ -116,6 +116,12 @@ enable-ra
 dhcp-rapid-commit
 
 dhcp-range=10.123.0.22,10.123.0.220,255.255.255.0,2h
+dhcp-host=s100-0-host.wam.intrawake.net,10.123.0.200,2h
+dhcp-host=s100-1-host.wam.intrawake.net,10.123.0.201,2h
+dhcp-host=s100-2-host.wam.intrawake.net,10.123.0.202,2h
+dhcp-host=s100-3-host.wam.intrawake.net,10.123.0.203,2h
+dhcp-host=atomman-0-host.wam.intrawake.net,10.123.0.204,2h
+
 
 domain-needed
 bogus-priv

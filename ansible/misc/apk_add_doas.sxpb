@@ -1,0 +1,9 @@
+(name Install doas.)
+(hosts all)
+(tasks (())
+ (()
+  (community.general.apk
+   (name doas)
+   (state present)
+ ))
+)

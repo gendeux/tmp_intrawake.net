@@ -1,0 +1,21 @@
+; An Ansible play that stops unncessesary postmarketos services.
+
+(name Stop sleep-inhibitor.)
+(hosts all)
+(tasks (())
+ (()
+  (name Stop sleep-inhibitor.)
+  (ansible.builtin.service
+   (name sleep-inhibitor)
+   (enabled +false)
+   (state stopped)
+ ))
+
+ (()
+  (name Stop wpa_supplicant.)
+  (ansible.builtin.service
+   (name wpa_supplicant)
+   (enabled +false)
+   (state stopped)
+ ))
+)

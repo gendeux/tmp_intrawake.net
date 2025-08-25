@@ -1,0 +1,11 @@
+(name Install fildesh.)
+(hosts all)
+(tasks (())
+ (()
+  (community.general.apk
+   (name fildesh)
+   (state present)
+   (update_cache +true)
+   (repository https://dl-cdn.alpinelinux.org/alpine/edge/testing)
+ ))
+)

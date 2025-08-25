@@ -1,0 +1,28 @@
+(name Set options for ext4 root filesystem.)
+(hosts all)
+(gather_facts +true)
+(tasks (())
+ (()
+  (name "Grab root filesystem info.")
+  (ansible.builtin.set_fact ()
+   (root_mount_info "{{ ansible_mounts | json_query('[?mount == `/`]') | first }}")
+ ))
+ (()
+  (name "Assert precondidiotns for root filesystem.")
+  (ansible.builtin.assert
+   (that (())
+    "root_mount_info is defined"
+    "root_mount_info.mount == '/'"
+    "root_mount_info.fstype == 'ext4'"
+    "root_mount_info.uuid is defined"
+ )))
+ (()
+  (name "Configure /etc/fstab.")
+  (ansible.posix.mount
+   (path /)
+   (src "UUID={{ root_mount_info.uuid }}")
+   (fstype "{{ root_mount_info.fstype }}")
+   (opts defaults,noatime,discard)
+   (state present)
+ ))
+)

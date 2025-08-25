@@ -1,0 +1,19 @@
+; An Ansible play for ssh-copy-id through a root-delegate user.
+;
+; Effectively like running:
+;   cat ~/.ssh/ansible.pub | ssh root-delegate@HOST "doas mkdir -p /root/.ssh && doas chmod 700 /root/.ssh && doas tee -a /root/.ssh/authorized_keys > /dev/null"
+
+(name Authorize root over ssh.)
+(hosts all)
+(remote_user root-delegate)
+(tasks (())
+ (()
+  (name Create dir doas for user.)
+  (become +true)
+  (become_user root)
+  (become_method doas)
+  (ansible.posix.authorized_key
+   (user root)
+   (key "{{ lookup('file', '/home/grencez/.ssh/ansible.pub') }}")
+ ))
+)

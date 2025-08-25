@@ -1,0 +1,29 @@
+(name Configure community repository.)
+(hosts all)
+(tasks (())
+ (()
+  (name Configure main repository.)
+  (register main_repository_task)
+  (ansible.builtin.lineinfile
+   (path /etc/apk/repositories)
+   (regexp .*/main$)
+   (line https://dl-cdn.alpinelinux.org/alpine/latest-stable/main)
+ ))
+ (()
+  (name Configure community repository..)
+  (register community_repository_task)
+  (ansible.builtin.lineinfile
+   (path /etc/apk/repositories)
+   (regexp .*/community$)
+   (line https://dl-cdn.alpinelinux.org/alpine/latest-stable/community)
+ ))
+ (()
+  (name Update package cache.)
+  (when
+   main_repository_task.changed or
+   community_repository_task.changed
+  )
+  (community.general.apk
+   (update_cache +true)
+ ))
+)
