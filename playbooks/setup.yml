@@ -1,0 +1,17 @@
+---
+- hosts: all
+  become: yes
+  vars:
+    # By default, the authorize_ssh role uses doas to become root.
+    # The remote user should have passwordless doas configured.
+    # You can specify the remote user in the inventory file, for example:
+    # your_host:
+    #   ansible_host: 192.168.1.100
+    #   ansible_user: your_user
+    ansible_become_method: doas
+
+  roles:
+    - role: common
+    - role: authorize_ssh
+      # You can override the default path to the public key here, for example:
+      # authorized_ssh_key_path: /path/to/your/key.pub

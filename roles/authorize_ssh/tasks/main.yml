@@ -1,0 +1,9 @@
+---
+- name: Authorize SSH key for root
+  ansible.posix.authorized_key:
+    user: root
+    key: "{{ lookup('file', authorized_ssh_key_path) }}"
+    state: present
+  become: true
+  become_user: root
+  become_method: doas

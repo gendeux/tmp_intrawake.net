@@ -1,0 +1,24 @@
+---
+- name: Configure main repository
+  ansible.builtin.lineinfile:
+    path: /etc/apk/repositories
+    regexp: '.*/main$'
+    line: 'https://dl-cdn.alpinelinux.org/alpine/latest-stable/main'
+  register: main_repository_task
+
+- name: Configure community repository
+  ansible.builtin.lineinfile:
+    path: /etc/apk/repositories
+    regexp: '.*/community$'
+    line: 'https://dl-cdn.alpinelinux.org/alpine/latest-stable/community'
+  register: community_repository_task
+
+- name: Update package cache
+  community.general.apk:
+    update_cache: yes
+  when: main_repository_task.changed or community_repository_task.changed
+
+- name: Install doas
+  community.general.apk:
+    name: doas
+    state: present

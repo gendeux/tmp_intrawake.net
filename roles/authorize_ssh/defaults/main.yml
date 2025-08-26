@@ -1,0 +1,4 @@
+---
+# The path to the public SSH key to authorize for the root user.
+# This file must exist on the Ansible control node.
+authorized_ssh_key_path: "{{ lookup('env', 'HOME') }}/.ssh/ansible.pub"
