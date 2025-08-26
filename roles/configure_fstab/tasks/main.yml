@@ -1,0 +1,22 @@
+---
+- name: "Grab root filesystem info"
+  ansible.builtin.set_fact:
+    root_mount_info: "{{ ansible_mounts | selectattr('mount', 'equalto', '/') | first }}"
+
+- name: "Assert preconditions for root filesystem"
+  ansible.builtin.assert:
+    that:
+      - root_mount_info is defined
+      - root_mount_info.mount == '/'
+      - root_mount_info.fstype == 'ext4'
+      - root_mount_info.uuid is defined
+    quiet: yes
+
+- name: "Configure /etc/fstab"
+  ansible.posix.mount:
+    path: /
+    src: "UUID={{ root_mount_info.uuid }}"
+    fstype: "{{ root_mount_info.fstype }}"
+    opts: "defaults,noatime,discard"
+    state: present
+  become: true

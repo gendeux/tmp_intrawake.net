@@ -1,18 +1,32 @@
 # This is an example inventory file.
 #
-# Replace 'your_host' with a name for your target host,
-# and '192.168.1.100' with its IP address.
-#
-# The 'ansible_user' is the user that Ansible will connect as.
-# This user should have passwordless 'doas' configured to allow
-# running commands as root.
-#
-# The 'ansible_ssh_private_key_file' should point to the private key
-# for the 'ansible_user'.
+# It is organized into groups to allow applying different configurations
+# to different sets of hosts.
 
 all:
-  hosts:
-    your_host:
-      ansible_host: 192.168.1.100
-      # ansible_user: your_user
-      # ansible_ssh_private_key_file: ~/.ssh/id_rsa
+  children:
+    atomman_hosts:
+      hosts:
+        atomman-0-host:
+          ansible_host: 192.168.1.10 # Replace with actual IP
+
+    s100_hosts:
+      hosts:
+        s100-0-host:
+          ansible_host: 192.168.1.20 # Replace with actual IP
+        s100-1-host:
+          ansible_host: 192.168.1.21 # Replace with actual IP
+        s100-2-host:
+          ansible_host: 192.168.1.22 # Replace with actual IP
+        s100-3-host:
+          ansible_host: 192.168.1.23 # Replace with actual IP
+
+  vars:
+    # The 'ansible_user' is the user that Ansible will connect as.
+    # This user should have passwordless 'doas' configured to allow
+    # running commands as root.
+    # ansible_user: your_user
+
+    # The 'ansible_ssh_private_key_file' should point to the private key
+    # for the 'ansible_user'.
+    # ansible_ssh_private_key_file: ~/.ssh/id_rsa
